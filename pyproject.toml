@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "crouton"
+version = "0.1.0"
+description = "A static site generator"
+authors = ["wxllow <willow@wxllow.dev>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+toml = "^0.10.2"
+
+[tool.poetry.dev-dependencies]
+black = "^22.6.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
