@@ -83,7 +83,7 @@ class Site:
 
             generated_page = self.generate_page(file)
 
-            if not generated_page:
+            if generated_page is None:
                 continue
 
             with open(out_loc, "w") as f:

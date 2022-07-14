@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "cocoa"
+name = "kiwis"
 version = "0.1.0b1"
 description = "A simple yet powerful static site generator"
 authors = ["wxllow <willow@wxllow.dev>"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/wxllow/cocoa"
-repository = "https://github.com/wxllow/cocoa"
+homepage = "https://github.com/wxllow/kiwis"
+repository = "https://github.com/wxllow/kiwis"
 keywords = ["static site generator", "web", "web development", "web framework", "ssg", "static site", "jinja", "markdown"]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -18,7 +18,7 @@ include = [
 ]
 
 [tool.poetry.scripts]
-cocoa = "cocoa.__main__:cli"
+kiwis = "kiwis.__main__:cli"
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -33,6 +33,8 @@ rich-click = "^1.5.1"
 Markdown = "^3.3.7"
 python-frontmatter = "^1.0.0"
 pymdown-extensions = "^9.5"
+
+# Development mode
 watchdog = "^2.1.9"
 
 [tool.poetry.dev-dependencies]

@@ -1,4 +1,4 @@
-site_name: Cocoa Documentation
+site_name: kiwis Documentation
 theme:
   name: material
   # custom_dir: docs/overrides

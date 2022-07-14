@@ -6,7 +6,7 @@ from rich import print
 from rich.prompt import Prompt, Confirm
 import toml
 
-from .cocoa import Site
+from .kiwis import Site
 
 
 @click.group()
