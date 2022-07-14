@@ -86,7 +86,7 @@ class Site:
             if generated_page is None:
                 continue
 
-            with open(out_loc, "w") as f:
+            with open(out_loc, "wb") as f:
                 f.write(generated_page)
 
         # Finish up
@@ -144,9 +144,13 @@ class Site:
                     props = mod.props
 
             # Render template
-            return self.jenv.get_template(loc).render(
-                **default_vars,
-                props=props,
+            return (
+                self.jenv.get_template(loc)
+                .render(
+                    **default_vars,
+                    props=props,
+                )
+                .encode("utf-8")
             )
         elif loc.endswith(".md"):
             # Get metadata and content from frontmatter
@@ -177,11 +181,15 @@ class Site:
             rendered = markdown.markdown(data.content)
 
             # Render template
-            return self.jenv.from_string(template).render(
-                **default_vars, _md={"base": base_template_loc, "content": rendered}
+            return (
+                self.jenv.from_string(template)
+                .render(
+                    **default_vars, _md={"base": base_template_loc, "content": rendered}
+                )
+                .encode("utf-8")
             )
         elif loc.endswith(".py"):
             return None
         else:
-            with open(os.path.join(self.src_path, loc), "r") as f:
+            with open(os.path.join(self.src_path, loc), "rb") as f:
                 return f.read()
