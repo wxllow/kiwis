@@ -2,13 +2,16 @@
 
 ## Core
 
-- [ ] Development Mode
+- [x] Development Mode
 - [ ] Development Mode Hotreload (using a websocket?)
 - [ ] Finalize Props
-- [ ] Markdown/Matter support
-- [ ] Markdown Template Inheretance
+- [x] Markdown/Matter support
+- [x] Markdown Template Inheretance
 - [ ] RSS Support
 - [ ] Generate sitemap
+- [ ] Github Pages Deployment
+- [ ] Plugin support
+- [ ] Python-Markdown Extension support
 
 ## Plugins
 
@@ -18,6 +21,6 @@
 ## Examples/Templates
 
 - [ ] Skeleton Jinja Template
-- [ ] Beautiful Template (for beginners)
+- [ ] Beautiful Template (for beginners/proof of concept)
 - [ ] Tailwind Template
 - [ ] Jinja/MD Blog Template
