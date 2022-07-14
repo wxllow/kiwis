@@ -1,10 +1,13 @@
 import os
 import shutil
+from http.server import SimpleHTTPRequestHandler
+from socketserver import TCPServer
 
 import markdown
 import frontmatter
 from jinja2 import Environment, FileSystemLoader
-
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
 from .config import Config
 from .utils import (
     import_mod_from_path,
@@ -12,6 +15,20 @@ from .utils import (
     special_file,
     find_template,
 )
+
+
+class DevFSHandler(FileSystemEventHandler):
+    def __init__(self, app) -> None:
+        super().__init__()
+        self.app = app
+
+    def on_any_event(self, event):
+        self.app.build("dev.tmp")
+
+
+class DevHTTPHandler(SimpleHTTPRequestHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, directory="dev.tmp", **kwargs)
 
 
 class Site:
@@ -22,6 +39,21 @@ class Site:
 
         with open(os.path.join(path, "site.toml"), "r") as f:
             self.config = Config(f.read())
+
+    def dev(self) -> None:
+        self.build("dev.tmp")
+
+        # Watch for changes
+        observer = Observer()
+        observer.schedule(DevFSHandler(self), self.path, recursive=True)
+        observer.start()
+
+        # Start HTTP server
+        with TCPServer(("", 3000), DevHTTPHandler) as httpd:
+            print("Serving at port", 3000)
+            httpd.serve_forever()
+
+        observer.join()
 
     def build(self, output: os.PathLike = "") -> None:
         """Build the site."""

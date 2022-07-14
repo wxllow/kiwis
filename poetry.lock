@@ -352,7 +352,7 @@ python-versions = ">=3.7"
 name = "watchdog"
 version = "2.1.9"
 description = "Filesystem events monitoring"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -374,7 +374,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "3da4e293f8780e36b41bba7de9c86cf0478d382ed2c4bb20a0ec750462c22b48"
+content-hash = "469fbc384b62b6bb321c62cca63ee2cfdafda1c70b2593c84896fa84497dc4ee"
 
 [metadata.files]
 black = []

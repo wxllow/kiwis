@@ -48,7 +48,7 @@ def init():
 
 @cli.command()
 @click.argument("path", type=click.Path(file_okay=False, exists=False))
-def build(path: str = ""):
+def build(path):
     print(f"[bright_magenta]Building...")
 
     site = Site(path)
@@ -59,8 +59,12 @@ def build(path: str = ""):
 
 
 @cli.command()
-def dev():
-    print("[bright_red]Coming soon!")
+@click.argument("path", type=click.Path(file_okay=False, exists=False))
+def dev(path):
+    print("[bright_magenta]Starting development server...")
+
+    site = Site(path)
+    site.dev()
 
 
 if __name__ == "__main__":

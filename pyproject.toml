@@ -18,6 +18,7 @@ rich-click = "^1.5.1"
 Markdown = "^3.3.7"
 python-frontmatter = "^1.0.0"
 pymdown-extensions = "^9.5"
+watchdog = "^2.1.9"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"
