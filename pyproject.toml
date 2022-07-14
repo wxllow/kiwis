@@ -4,6 +4,21 @@ version = "0.1.0"
 description = "A simple yet powerful static site generator"
 authors = ["wxllow <willow@wxllow.dev>"]
 license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/wxllow/cocoa"
+repository = "https://github.com/wxllow/cocoa"
+keywords = ["static site generator", "web", "web development", "web framework", "ssg", "static site", "jinja", "markdown"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+include = [
+    "LICENSE",
+]
+
+[tool.poetry.scripts]
+cocoa = "cocoa.__main__:cli"
 
 [tool.poetry.dependencies]
 python = "^3.9"
