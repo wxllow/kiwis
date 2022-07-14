@@ -1,0 +1,20 @@
+site_name: Cocoa Documentation
+theme:
+  name: material
+  # custom_dir: docs/overrides
+
+  palette:
+    scheme: slate
+    primary: light blue
+
+markdown_extensions:
+  - def_list
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true 
