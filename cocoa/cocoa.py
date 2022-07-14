@@ -1,6 +1,7 @@
 import os
 import shutil
 
+import frontmatter
 from jinja2 import Environment, FileSystemLoader
 
 from .config import Config
@@ -47,7 +48,30 @@ class Site:
             with open(out_loc, "w") as f:
                 f.write(generated_page)
 
-        # Finish up and move to output
+        # Finish up
+
+        # For all html files not named index.html, make it's own folder
+        for file in [
+            os.path.join(path, name)
+            for path, _, files in os.walk(tmp_output)
+            for name in files
+        ]:
+            if (
+                file.endswith(".html")
+                and not os.path.split(file)[-1].strip() == "index.html"
+            ):
+                if os.path.exists(
+                    os.path.join(file.replace(".html", ""), "index.html")
+                ):
+                    continue
+
+                os.makedirs(os.path.join(file.replace(".html", "")), exist_ok=True)
+                shutil.copy(
+                    os.path.join(file),
+                    os.path.join(file.replace(".html", ""), "index.html"),
+                )
+
+        # Move temp output to output dir
         if os.path.exists(output):
             shutil.rmtree(output)
 
