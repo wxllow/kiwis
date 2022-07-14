@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cocoa"
-version = "0.1.0"
+version = "0.1.0b1"
 description = "A simple yet powerful static site generator"
 authors = ["wxllow <willow@wxllow.dev>"]
 license = "MIT"
