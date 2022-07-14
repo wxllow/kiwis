@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ site.name }}</title>
-    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/style.css">
     {% block head %}{% endblock %}
 </head>
 <body>
+    <!-- Markdown metadata -->
+    {% if page.metadata %}
+        <h1>{{ page.metadata.title or "" }}</h1>
+    {% endif %}
     {% block content %}{% endblock %}
 </body>
 </html>

@@ -1,11 +1,17 @@
 import os
 import shutil
 
+import markdown
 import frontmatter
 from jinja2 import Environment, FileSystemLoader
 
 from .config import Config
-from .utils import import_mod_from_path, out_name, special_file
+from .utils import (
+    import_mod_from_path,
+    out_name,
+    special_file,
+    find_template,
+)
 
 
 class Site:
@@ -45,6 +51,9 @@ class Site:
 
             generated_page = self.generate_page(file)
 
+            if not generated_page:
+                continue
+
             with open(out_loc, "w") as f:
                 f.write(generated_page)
 
@@ -79,6 +88,17 @@ class Site:
 
     def generate_page(self, loc: str) -> str:
         """Generate a page."""
+        default_vars = {
+            "site": {
+                "name": self.config.name,
+                "slogan": self.config.slogan,
+            },
+            "page": {
+                "location": loc,
+                "params": {},
+            },
+        }
+
         if loc.endswith(".jinja") or loc.endswith(".html"):
             # Get props from Python file, if exists
             py_loc = os.path.join(self.src_path, f"{'.'.join(loc.split('.')[:-1])}.py")
@@ -93,16 +113,43 @@ class Site:
 
             # Render template
             return self.jenv.get_template(loc).render(
-                site={
-                    "name": self.config.name,
-                    "slogan": self.config.slogan,
-                },
-                page={
-                    "location": loc,
-                    "params": {},
-                },
+                **default_vars,
                 props=props,
             )
+        elif loc.endswith(".md"):
+            # Get metadata and content from frontmatter
+            with open(os.path.join(self.src_path, loc), "r") as f:
+                data = frontmatter.loads(f.read())
+
+            # Render markdown using template
+            base_template_loc = os.path.relpath(
+                find_template(
+                    self.src_path, os.path.join(self.src_path, loc), markdown=True
+                ),
+                start=self.src_path,
+            )
+
+            template = """
+            {% extends _md.base %}
+            {% block content %}
+                {{ _md.content|safe }}
+            {% endblock %}
+            """
+
+            # Add markdown content to variables
+            default_vars["page"].update(
+                {"metadata": data.metadata, "content": data.content}
+            )
+
+            # Render markdown
+            rendered = markdown.markdown(data.content)
+
+            # Render template
+            return self.jenv.from_string(template).render(
+                **default_vars, _md={"base": base_template_loc, "content": rendered}
+            )
+        elif loc.endswith(".py"):
+            return None
         else:
             with open(os.path.join(self.src_path, loc), "r") as f:
                 return f.read()
