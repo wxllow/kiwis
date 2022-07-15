@@ -5,9 +5,11 @@ from socketserver import TCPServer
 
 import markdown
 import frontmatter
+from rich import print
 from jinja2 import Environment, FileSystemLoader
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+
 from .config import Config
 from .utils import (
     import_mod_from_path,
@@ -23,7 +25,9 @@ class DevFSHandler(FileSystemEventHandler):
         self.app = app
 
     def on_any_event(self, event):
+        print(f"[light_goldenrod3]Changed detected, rebuilding...")
         self.app.build("dev.tmp")
+        print(f"[bright_green]Build complete.")
 
 
 class DevHTTPHandler(SimpleHTTPRequestHandler):
@@ -48,9 +52,12 @@ class Site:
         observer.schedule(DevFSHandler(self), self.path, recursive=True)
         observer.start()
 
+        host = ""
+        port = 3000
+
         # Start HTTP server
         with TCPServer(("", 3000), DevHTTPHandler) as httpd:
-            print("Serving at port", 3000)
+            print(f"[bright_green]Serving site at http://{host or 'localhost'}:{port}/")
             httpd.serve_forever()
 
         observer.join()
